@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+
+<div  style="border:1px solid black; width: 70%; padding:20px; background-color: black; margin: auto; border-radius: 25px; margin-top: 150px; border-color: #F5C645; border-width: 5px">
+<form action="{{ url_for('contact') }}" method="post">
+    <h1 class="mb-3" style="color: #F5C645; text-align: center;">Contact Form</h1>
+    <div class="row mb-4">
+        <div class="col me-0">
+            <input name="name" type="text" class="form-control" placeholder="First name" aria-label="First name" required="required">
+        </div>
+        <div class="col">
+            <input name="surname" type="text" class="form-control" placeholder="Last name" aria-label="Last name" required="required">
+        </div>
+    </div>
+    <div class="mb-4">
+        <input name="email" type="email" class="form-control" placeholder="Email address" id="exampleInputEmail1" aria-describedby="emailHelp" required="required">
+    </div>
+    <div class="mb-3">
+        <input name="message" class="form-control" placeholder="Message" id="exampleInputPassword1" style="height: 3.5rem" required="required">
+    </div>
+    <button type="submit" class="btn btn-primary" style="background-color: #F5C645; border-color: black;">Submit</button>
+</form>
+</div>
+{% endblock %}

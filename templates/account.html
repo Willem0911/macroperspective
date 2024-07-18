@@ -1,0 +1,13 @@
+{% extends "base.html" %} {% block content %}
+
+<!--TODO: Display the user's name in the h1 title-->
+<div class="container">
+  <h1 class="title">Welcome, {{name}}!</h1>
+  <p> Your URL is: http://127.0.0.1:5000/trade/{{id}}?api_key={{api_key}}</p>
+  {% if id==1: %}
+  <p> Your post URL is: http://127.0.0.1:5000/post_new_trade?symbol=?bull_or_bear=?risk_perc=?sl_and_tp=</p>
+  {% endif %}
+  <!--TODO: Make a GET request to the /download path-->
+  <a href="#">Download Your File</a>
+</div>
+{% endblock %}
