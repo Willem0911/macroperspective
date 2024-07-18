@@ -3,6 +3,7 @@ import smtplib
 import secrets
 import random
 import datetime
+import os
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -10,9 +11,9 @@ from sqlalchemy import Integer, String, Float, Boolean
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
-EMAIL_PASSWORD = "zugi vnhp bmnx mkzo"
-EMAIL_NAME = "williamhorowits@gmail.com"
+app.config['SECRET_KEY'] = os.environ.get('FLASK_KEY')
+EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+EMAIL_NAME = os.environ.get('EMAIL_NAME')
 
 
 # CREATE DATABASE
@@ -20,7 +21,7 @@ class Base(DeclarativeBase):
     pass
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///users.db")
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
@@ -241,4 +242,4 @@ def post_new_trade():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
