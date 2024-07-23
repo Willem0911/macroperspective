@@ -4,6 +4,7 @@ import secrets
 import random
 import datetime
 import os
+from waitress import serve
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -11,9 +12,9 @@ from sqlalchemy import Integer, String, Float, Boolean
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('FLASK_KEY')
-EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD')
-EMAIL_NAME = os.environ.get('EMAIL_NAME')
+app.config['SECRET_KEY'] = "aldkhjhewuiorhweiooi"
+EMAIL_PASSWORD = "zugi vnhp bmnx mkzo"
+EMAIL_NAME = "williamhorowits@gmail.com"
 
 
 # CREATE DATABASE
@@ -117,7 +118,7 @@ def verify():
         user_verification = str(request.form.get("verification_code"))
         verification_code = session.get("verification_code")
         name = session.get('name')
-        email = session.get('email')
+        email = session.get('email').lower()
         password = session.get('password')
         if user_verification == verification_code:
             hashed_password = generate_password_hash(
@@ -148,7 +149,7 @@ def verify():
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        email = request.form.get('email')
+        email = request.form.get('email').lower()
         password = request.form.get('password')
 
         # Find user by email entered.
@@ -242,4 +243,4 @@ def post_new_trade():
 
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    serve(app, host='192.168.1.107', port=80)
