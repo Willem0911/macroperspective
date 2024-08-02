@@ -5,16 +5,20 @@ import random
 import datetime
 import os
 from waitress import serve
+# from OpenSSL import SSL
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Float, Boolean
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 
+ASSETS_DIR = os.path.dirname(os.path.abspath(__file__))
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "aldkhjhewuiorhweiooi"
 EMAIL_PASSWORD = "zugi vnhp bmnx mkzo"
 EMAIL_NAME = "williamhorowits@gmail.com"
+
 
 
 # CREATE DATABASE
@@ -30,6 +34,7 @@ db.init_app(app)
 # CONFIGURE FLASK-LOGIN'S LOGIN MANAGER
 login_manager = LoginManager()
 login_manager.init_app(app)
+
 
 
 # CREATE A USER_LOADER CALLBACK
@@ -209,16 +214,22 @@ def get_latest_trade(user_id):
         current_time = datetime.datetime.now()
         user.last_trade = f"Your last trade was on {current_time.day}/{current_time.month}/{current_time.year} at {current_time.hour}:{current_time.minute}"
         db.session.commit()
-        return jsonify(trade={
+        return jsonify(message1={
             "symbol": latest_trade.symbol,
             "bull_or_bear": latest_trade.bull_or_bear,
             "risk_perc": latest_trade.risk_perc,
             "sl_and_tp": latest_trade.sl_and_tp,
         })
     elif not user.session_available and api_key == user.api_key:
-        return jsonify(message={"Previous trade received": user.last_trade, "Latest Trade":latest_trade.time_of_posting, "Error": "No New Trades available"})
+        # return jsonify(message2={"Previous trade received": user.last_trade, "Latest Trade":latest_trade.time_of_posting, "Error": "No New Trades available"})
+        return jsonify(message1={
+            "symbol": latest_trade.symbol,
+            "bull_or_bear": latest_trade.bull_or_bear,
+            "risk_perc": latest_trade.risk_perc,
+            "sl_and_tp": latest_trade.sl_and_tp,
+        })
     else:
-        return jsonify(message={"error": "Wrong API key"}), 404
+        return jsonify(message3={"error": "Wrong API key"}), 404
 
 
 @app.route('/post_new_trade', methods=["GET", "POST"])
@@ -243,4 +254,4 @@ def post_new_trade():
 
 
 if __name__ == "__main__":
-    serve(app, host='192.168.1.107', port=80)
+    serve(app, host='192.168.1.105', port=5000, url_scheme="https")
