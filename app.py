@@ -9,7 +9,7 @@ from waitress import serve
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import Integer, String, Float, Boolean
+from sqlalchemy import Integer, String, Boolean
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 
 ASSETS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -20,21 +20,20 @@ EMAIL_PASSWORD = "zugi vnhp bmnx mkzo"
 EMAIL_NAME = "williamhorowits@gmail.com"
 
 
-
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///users.db")
-db = SQLAlchemy(model_class=Base)
-db.init_app(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:willemerasmus@flaskdb.chouyammgprj.us-east-1.rds.amazonaws.com/macrodb'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
 
 
 # CONFIGURE FLASK-LOGIN'S LOGIN MANAGER
 login_manager = LoginManager()
 login_manager.init_app(app)
-
 
 
 # CREATE A USER_LOADER CALLBACK
@@ -53,18 +52,31 @@ class User(UserMixin, db.Model):
     session_available: Mapped[bool] = mapped_column(Boolean())
     last_trade: Mapped[str] = mapped_column(String(50))
 
+    def __init__(self, email, password, name, api_key, session_available, last_trade):
+        self.email = email
+        self.password = password
+        self.name = name
+        self.api_key = api_key
+        self.session_available = session_available
+        self.last_trade = last_trade
+
 
 class Trade(db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     symbol: Mapped[str] = mapped_column(String(6), nullable=False)
-    bull_or_bear: Mapped[str] = mapped_column(String(4), nullable=False)
-    risk_perc: Mapped[str] = mapped_column(Float(), nullable=False)
-    sl_and_tp: Mapped[str] = mapped_column(String(), nullable=False)
+    buy_or_sell: Mapped[str] = mapped_column(String(4), nullable=False)
+    risk_perc: Mapped[str] = mapped_column(String(4), nullable=False)
+    sl: Mapped[str] = mapped_column(String(6), nullable=False)
+    tp: Mapped[str] = mapped_column(String(6), nullable=False)
     time_of_posting: Mapped[str] = mapped_column(String(50))
 
-
-with app.app_context():
-    db.create_all()
+    def __init__(self, symbol, buy_or_sell, risk_perc, sl, tp, time_of_posting):
+        self.symbol = symbol
+        self.risk_perc = risk_perc
+        self.buy_or_sell = buy_or_sell
+        self.sl = sl
+        self.tp = tp
+        self.time_of_posting = time_of_posting
 
 
 @app.route('/')
@@ -75,7 +87,7 @@ def home():
 @app.route('/contact', methods=["GET", "POST"])
 def contact():
     if request.method == "POST":
-        subject = (f"MACRO PERSPECTIVE: My name is {request.form.get('name')} {request.form.get('surname')} and my "
+        subject = (f"MACRO PERSPECTIVE: My name is {request.form.get('name')} and my "
                    f"email is {request.form.get('email')}")
         message = request.form.get('message')
 
@@ -105,7 +117,8 @@ def register():
         connection = smtplib.SMTP("smtp.gmail.com")
         connection.starttls()
         connection.login(user=EMAIL_NAME, password=EMAIL_PASSWORD)
-        connection.sendmail(from_addr=EMAIL_NAME, to_addrs=email, msg=f"Subject: Macro Perspective\n\nVerification code:{secret}")
+        connection.sendmail(from_addr=EMAIL_NAME, to_addrs=email, msg=f"Subject: Macro Perspective\n\nVerification code"
+                                                                      f":{secret}")
         connection.close()
         session['verification_code'] = secret
         session['password'] = request.form.get('password')
@@ -118,13 +131,14 @@ def register():
 
 @app.route('/register/verification', methods=["GET", "POST"])
 def verify():
-
+    email = session.get('email').lower()
     if request.method == "POST":
         user_verification = str(request.form.get("verification_code"))
         verification_code = session.get("verification_code")
         name = session.get('name')
-        email = session.get('email').lower()
+
         password = session.get('password')
+        print(f"{name}, {email}, {password}")
         if user_verification == verification_code:
             hashed_password = generate_password_hash(
                 password,
@@ -140,7 +154,7 @@ def verify():
                 password=hashed_password,
                 api_key=api_key,
                 session_available=True,
-                last_trade = "",
+                last_trade="nothing",
             )
             db.session.add(new_user)
             db.session.commit()
@@ -148,7 +162,7 @@ def verify():
             return redirect(url_for('account'))
         else:
             return redirect(url_for('register'))
-    return render_template('verify.html')
+    return render_template('verify.html', verification_email=email)
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -178,7 +192,11 @@ def login():
 @app.route('/account')
 @login_required
 def account():
-    return render_template("account.html", name=current_user.name, api_key=current_user.api_key, id=current_user.id, logged_in=current_user.is_authenticated)
+    return render_template("account.html",
+                           name=current_user.name,
+                           api_key=current_user.api_key,
+                           id=current_user.id,
+                           logged_in=current_user.is_authenticated)
 
 
 @app.route('/logout')
@@ -212,22 +230,25 @@ def get_latest_trade(user_id):
     if api_key == user.api_key and user.session_available:
         user.session_available = False
         current_time = datetime.datetime.now()
-        user.last_trade = f"Your last trade was on {current_time.day}/{current_time.month}/{current_time.year} at {current_time.hour}:{current_time.minute}"
+        if len(str(current_time.minute)) == 1:
+            user.last_trade = (f"Your last trade was on {current_time.day}/{current_time.month}/{current_time.year} at "
+                               f"{current_time.hour}:0{current_time.minute}")
+        else:
+            user.last_trade = (f"Your last trade was on {current_time.day}/{current_time.month}/{current_time.year} at "
+                               f"{current_time.hour}:{current_time.minute}")
         db.session.commit()
         return jsonify(message1={
             "symbol": latest_trade.symbol,
-            "bull_or_bear": latest_trade.bull_or_bear,
-            "risk_perc": latest_trade.risk_perc,
-            "sl_and_tp": latest_trade.sl_and_tp,
+            "buy or sell": latest_trade.buy_or_sell,
+            "risk percentage": latest_trade.risk_perc,
+            "stop loss": latest_trade.sl,
+            "take profit": latest_trade.tp,
         })
     elif not user.session_available and api_key == user.api_key:
-        # return jsonify(message2={"Previous trade received": user.last_trade, "Latest Trade":latest_trade.time_of_posting, "Error": "No New Trades available"})
-        return jsonify(message1={
-            "symbol": latest_trade.symbol,
-            "bull_or_bear": latest_trade.bull_or_bear,
-            "risk_perc": latest_trade.risk_perc,
-            "sl_and_tp": latest_trade.sl_and_tp,
-        })
+        return jsonify(message2={
+                        "Previous trade received": user.last_trade,
+                        "Latest Trade": latest_trade.time_of_posting,
+                        "Error": "No New Trades available"})
     else:
         return jsonify(message3={"error": "Wrong API key"}), 404
 
@@ -236,12 +257,22 @@ def get_latest_trade(user_id):
 def post_new_trade():
     args = request.args.get('symbol').split('?')
     current_time = datetime.datetime.now()
-    time_of_posting = f"The last trade was posted on {current_time.day}/{current_time.month}/{current_time.year} at {current_time.hour}:{current_time.minute}"
+    if len(str(current_time.minute)) == 1:
+        time_of_posting = (f"The last trade was posted on {current_time.day}/{current_time.month}/{current_time.year} "
+                           f"at {current_time.hour}:0{current_time.minute}")
+        time_of_posting_msg = (f"Successfully posted the latest trade on {current_time.day}/{current_time.month}/"
+                               f"{current_time.year} at {current_time.hour}:0{current_time.minute}!")
+    else:
+        time_of_posting_msg = (f"Successfully posted the latest trade on {current_time.day}/{current_time.month}/"
+                               f"{current_time.year} at {current_time.hour}:{current_time.minute}!")
+        time_of_posting = (f"The last trade was posted on {current_time.day}/{current_time.month}/{current_time.year} "
+                           f"at {current_time.hour}:{current_time.minute}")
     new_trade = Trade(
         symbol=args[0],
-        bull_or_bear=args[1].split("=")[1],
+        buy_or_sell=args[1].split("=")[1],
         risk_perc=args[2].split("=")[1],
-        sl_and_tp=args[3].split("=")[1],
+        sl=args[3].split("=")[1],
+        tp=args[4].split("=")[1],
         time_of_posting=time_of_posting,
     )
     db.session.add(new_trade)
@@ -250,8 +281,14 @@ def post_new_trade():
     for user in all_users:
         user.session_available = True
         db.session.commit()
-    return jsonify(response={"success": "Successfully posted the latest trade!"}), 200
+    return jsonify(response={
+        "success": f"{time_of_posting_msg}"}), 200
 
+
+mode = "dev"
 
 if __name__ == "__main__":
-    serve(app, host='192.168.1.105', port=5000, url_scheme="https")
+    if mode == "prod":
+        serve(app, host='127.0.0.1', port=8000, url_scheme="https")
+    elif mode == "dev":
+        app.run(debug=True)

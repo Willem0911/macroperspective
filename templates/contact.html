@@ -1,26 +1,85 @@
-{% extends 'base.html' %}
-{% block title %}Contact{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Macro Perspective</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/contact-styles.css') }}">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    </head>
+    <body>
+    
+        <nav>
+            <ul class="sidebar" style='text-align: center;'>
+                <li onclick="hideSidebar()"><a href="{{ url_for('contact') }}"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></a></li>
+                <li onclick="hideSidebar()"><a  href="{{ url_for('home') }}">Home</a></li>
+                <li onclick="hideSidebar()"><a href="/#FAQ">FAQ</a></li>
+                <li onclick="hideSidebar()"><a href="{{ url_for('contact') }}">Contact</a></li>
+                {% if not logged_in: %}
+                <li onclick="hideSidebar()"><a href="{{ url_for('login') }}">Login</a></li>
+                {% else: %}
+                <li onclick="hideSidebar()"><a href="{{ url_for('account') }}">Account</a></li>
+                <li onclick="hideSidebar()"><a href="{{ url_for('logout') }}">Log Out</a></li>
+                {% endif %}
+            </ul>
+            <ul>
+                <li><a href="#" class="no_hover"><img src="{{ url_for('static', filename='images/android-chrome-192x192.png') }}" height="50px" alt="macroperspective logo" style="padding-right: 10px;"> MACRO PERSPECTIVE</a></li>
+                <li class="hideOnMobile"><a href="{{ url_for('home') }}">Home</a></li>
+                <li class="hideOnMobile"><a href="/#FAQ">FAQ</a></li>
+                <li class="hideOnMobile"><a href="{{ url_for('contact') }}">Contact</a></li>
+                {% if not logged_in: %}
+                <li class="hideOnMobile"><a href="{{ url_for('login') }}">Login</a></li>
+                {% else: %}
+                <li class="hideOnMobile"><a href="{{ url_for('account') }}">Account</a></li>
+                <li class="hideOnMobile"><a href="{{ url_for('logout') }}">Log Out</a></li>
+                {% endif %}
+                <li class="menu-button" onclick=showSidebar()><a href="javascript:;" ><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F5C645"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg></a></li>
+            </ul>
+        </nav>
 
-{% block content %}
+    <div class="wrapper"  onclick="hideSidebar()">
+        <div class="wrapper-input">
+            <form action="{{ url_for('contact') }}" method="post">
+                <h1>
+                    Contact Us
+                </h1>
+                <div class="input-box">
+                    <input type="text" name="name" placeholder="Name" required>
+                    <i class="bx bx-user"></i>
+                </div>
+                <div class="input-box">
+                    <input type="email" name="email" placeholder="Email" required>
+                    <i class="bx bx-envelope"></i>
+                </div>
+                <textarea name="message" placeholder="Your message"></textarea>
+                <button type="submit" class="btn" onclick="HideButton()">Send Message</button>
+            </form>
+        </div>
+        <div class="wrapper-input">
+            <img src="{{ url_for('static', filename='images/best lion logo edited.jpg') }}" style="width: 100%;" alt="Macro Perspective logo">
+        </div>
+    </div>
 
-<div  style="border:1px solid black; width: 70%; padding:20px; background-color: black; margin: auto; border-radius: 25px; margin-top: 150px; border-color: #F5C645; border-width: 5px">
-<form action="{{ url_for('contact') }}" method="post">
-    <h1 class="mb-3" style="color: #F5C645; text-align: center;">Contact Form</h1>
-    <div class="row mb-4">
-        <div class="col me-0">
-            <input name="name" type="text" class="form-control" placeholder="First name" aria-label="First name" required="required">
-        </div>
-        <div class="col">
-            <input name="surname" type="text" class="form-control" placeholder="Last name" aria-label="Last name" required="required">
-        </div>
-    </div>
-    <div class="mb-4">
-        <input name="email" type="email" class="form-control" placeholder="Email address" id="exampleInputEmail1" aria-describedby="emailHelp" required="required">
-    </div>
-    <div class="mb-3">
-        <input name="message" class="form-control" placeholder="Message" id="exampleInputPassword1" style="height: 3.5rem" required="required">
-    </div>
-    <button type="submit" class="btn btn-primary" style="background-color: #F5C645; border-color: black;">Submit</button>
-</form>
-</div>
-{% endblock %}
+
+
+
+    <script>
+        function showSidebar(){
+            const sidebar = document.querySelector(".sidebar")
+            sidebar.style.display = 'flex'
+        }
+        function hideSidebar(){
+            const sidebar = document.querySelector(".sidebar")
+            sidebar.style.display = 'none'
+        }
+        function HideButton(){
+            const btn = document.querySelector(".btn")
+            btn.style.display = 'none'
+        }
+    </script>
+</body>
+</html>

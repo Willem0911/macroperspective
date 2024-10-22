@@ -1,14 +1,44 @@
-{% extends "base.html" %}
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macro Perspective</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register-styles.css') }}"/>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div class="wrapper">
+        <form action="{{ url_for('register') }}" method="post">
+            <h1>Register</h1>
+            <div class="input-box" onclick="inp">
+                <input type="text" name="name" placeholder="Username" required>
+                <i class="bx bxs-user"></i>
+            </div>
+            <div class="input-box">
+                <input type="email" name="email" placeholder="Email" required>
+                <i class='bx bx-envelope'></i>
+            </div>
+            <div class="input-box">
+                <input type="password" name="password" placeholder="Password" required>
+                <i class="bx bxs-lock-alt"></i>
+            </div>
 
-<div class="box">
-	<h1>Register</h1>
-    <form action="{{ url_for('register') }}" method="post">
-    	<input type="text" name="name" placeholder="Name" required="required" />
-		<input type="email" name="email" placeholder="Email" required="required" />
-        <input type="password" name="password" placeholder="Password" required="required" />
-        <button type="submit" class="btn btn-primary btn-block btn-large">Sign me up.</button>
-    </form>
-</div>
+            <button type="submit" class="btn" onclick="HideButton()">Register</button>
+            <div class="register-link">
+                <p>Have an account? <a href="{{ url_for('login') }}">Login</a></p>
+            </div>
+        </form>
+    </div>
 
-{% endblock %}
+    <script>
+        function HideButton(){
+            const btn = document.querySelector(".btn")
+            btn.style.display = 'none'
+        }
+    </script>
+</body>
+</html>

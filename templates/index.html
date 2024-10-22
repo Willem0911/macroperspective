@@ -1,33 +1,252 @@
-{% extends 'base.html' %}
-{% block title %}Macro Perspective{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macro Perspective</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home-styles.css') }}">
+</head>
+<body>
 
-{% block content %}
-<div class="ms-5">
-<h1>Lorem Ipsum</h1>
-<p>Lorem Ipsum</p>
-<p>"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
-"There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus condimentum turpis eget felis tempor, quis placerat sem blandit. Suspendisse tincidunt lectus ut tortor ornare malesuada. Cras in sem enim. Praesent nec feugiat dui, at pretium augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ullamcorper mauris a elit aliquam ullamcorper. Proin a mollis libero, vitae euismod odio. Proin arcu erat, aliquet ac ante quis, dictum euismod nunc.
-</p>
-<p>
-Ut a mollis neque. Cras accumsan eros nec ullamcorper pulvinar. Integer convallis quis mauris consectetur consequat. Nam non justo euismod, aliquam nisl congue, imperdiet enim. Praesent ac quam lobortis, tristique nulla at, aliquet sapien. Vestibulum velit tortor, efficitur sit amet cursus quis, volutpat convallis ex. Nulla eget nisl elit. Aenean diam mi, elementum at mi sit amet, elementum bibendum neque. Nam et magna tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vestibulum enim mauris, eu congue elit mollis at. Nulla neque sapien, cursus eu orci sit amet, vestibulum lacinia tellus. Nunc tellus quam, faucibus eget eleifend vitae, bibendum at dui. Phasellus eget maximus turpis.
-</p>
-<p>
-Quisque et purus et sem imperdiet egestas. Aenean a enim in eros mattis condimentum. Integer at dolor vel purus tincidunt finibus et elementum ligula. Etiam vitae feugiat est, vitae eleifend quam. Mauris eu tincidunt leo. Vestibulum in porta est. Nulla non vehicula tortor. Vivamus quis neque nec elit iaculis aliquet. Nunc viverra semper metus. Quisque in eros ut ipsum mollis elementum. In tempor nibh et nulla maximus sagittis. Morbi malesuada fringilla lacinia. Sed vel posuere magna.
-</p>
-<p>
-Maecenas ornare maximus massa ac tristique. Proin consectetur sodales lobortis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer risus dolor, tincidunt sit amet tincidunt sit amet, eleifend vitae risus. Suspendisse gravida dui et justo tincidunt lobortis. Nullam laoreet, ligula dictum pulvinar commodo, nisl massa fermentum tellus, imperdiet pharetra velit lorem eget lacus. Fusce pretium pharetra justo non placerat.
-<p>"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
-"There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus condimentum turpis eget felis tempor, quis placerat sem blandit. Suspendisse tincidunt lectus ut tortor ornare malesuada. Cras in sem enim. Praesent nec feugiat dui, at pretium augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ullamcorper mauris a elit aliquam ullamcorper. Proin a mollis libero, vitae euismod odio. Proin arcu erat, aliquet ac ante quis, dictum euismod nunc.
-</p>
-<p>
-Ut a mollis neque. Cras accumsan eros nec ullamcorper pulvinar. Integer convallis quis mauris consectetur consequat. Nam non justo euismod, aliquam nisl congue, imperdiet enim. Praesent ac quam lobortis, tristique nulla at, aliquet sapien. Vestibulum velit tortor, efficitur sit amet cursus quis, volutpat convallis ex. Nulla eget nisl elit. Aenean diam mi, elementum at mi sit amet, elementum bibendum neque. Nam et magna tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vestibulum enim mauris, eu congue elit mollis at. Nulla neque sapien, cursus eu orci sit amet, vestibulum lacinia tellus. Nunc tellus quam, faucibus eget eleifend vitae, bibendum at dui. Phasellus eget maximus turpis.
-</p>
-<p>
-Quisque et purus et sem imperdiet egestas. Aenean a enim in eros mattis condimentum. Integer at dolor vel purus tincidunt finibus et elementum ligula. Etiam vitae feugiat est, vitae eleifend quam. Mauris eu tincidunt leo. Vestibulum in porta est. Nulla non vehicula tortor. Vivamus quis neque nec elit iaculis aliquet. Nunc viverra semper metus. Quisque in eros ut ipsum mollis elementum. In tempor nibh et nulla maximus sagittis. Morbi malesuada fringilla lacinia. Sed vel posuere magna.
-</p>
-<p>
-Maecenas ornare maximus massa ac tristique. Proin consectetur sodales lobortis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer risus dolor, tincidunt sit amet tincidunt sit amet, eleifend vitae risus. Suspendisse gravida dui et justo tincidunt lobortis. Nullam laoreet, ligula dictum pulvinar commodo, nisl massa fermentum tellus, imperdiet pharetra velit lorem eget lacus. Fusce pretium pharetra justo non placerat.
-</div>
-{% endblock %}
+    <nav>
+        <ul class="sidebar" style='text-align: center;'>
+            <li onclick="hideSidebar()"><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></a></li>
+            <li onclick="hideSidebar()"><a  href="#">Home</a></li>
+            <li onclick="hideSidebar()"><a href="#FAQ">FAQ</a></li>
+            <li onclick="hideSidebar()"><a href="{{ url_for('contact') }}">Contact</a></li>
+            {% if not logged_in: %}
+            <li onclick="hideSidebar()"><a href="{{ url_for('login') }}">Login</a></li>
+            {% else: %}
+            <li onclick="hideSidebar()"><a href="{{ url_for('account') }}">Account</a></li>
+            <li onclick="hideSidebar()"><a href="{{ url_for('logout') }}">Log Out</a></li>
+            {% endif %}
+        </ul>
+        <ul>
+            <li><a href="#" class="no_hover"><img src="{{ url_for('static', filename='images/android-chrome-192x192.png') }}" height="50px" alt="macroperspective logo" style="padding-right: 10px;"> MACRO PERSPECTIVE</a></li>
+            <li class="hideOnMobile"><a href="#">Home</a></li>
+            <li class="hideOnMobile"><a href="#FAQ">FAQ</a></li>
+            <li class="hideOnMobile"><a href="{{ url_for('contact') }}">Contact</a></li>
+            {% if not logged_in: %}
+            <li class="hideOnMobile"><a href="{{ url_for('login') }}">Login</a></li>
+            {% else: %}
+            <li class="hideOnMobile"><a href="{{ url_for('account') }}">Account</a></li>
+            <li class="hideOnMobile"><a href="{{ url_for('logout') }}">Log Out</a></li>
+            {% endif %}
+            <li class="menu-button" onclick=showSidebar()><a href="javascript:;" ><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F5C645"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg></a></li>
+        </ul>
+    </nav>
+
+    <div class="first-div" onclick="hideSidebar()">
+        <div class='text-size' style="padding-top: 15vh; text-align: center;">
+            <b>AMBITION</b> IS THE FIRST STEP TOWARDS
+            <br>
+            <b style="font-size: xx-large;">SUCCESS</b>
+            <br>
+            Aspire to be a <b>LION</b>. Not a <b>BULL</b> and not a <b>BEAR</b>.
+        </div>
+
+    </div>
+
+    <div class="bg" onclick="hideSidebar()">
+        <div class="second-div" onclick="hideSidebar()">
+            <div style="margin-right: auto;"><h1 style="font-size: 20px;">The Fallacy of Trading EAs:</h1><h2 style="font-size: 16px;">A Smarter Approach with Macro Perspective</h2> <p style="padding-top: 30px; text-align: left;">When I first started trading, I believed I could buy a highly profitable EA (Expert Advisor) that would bring in consistent returns. However, I quickly learned that this idea is a fallacy.</p> <p style="padding-top: 15px; text-align: left;">Truly profitable, top-tier, A+ Grade EAs are never sold. No one shares those. What’s available on the market are often B- grade EAs, which might show some profitability but come with significant risk. The reality is, the programmers who create those EAs know they’re too risky. They would never trade their own money, using their own B- grade EA. Instead, they partner with marketers to sell these EAs to idealistic, unsuspecting customers. With 1,000 clients, a reseller can easily make $300k in profits. But, inevitably, the EA fails, and the cycle repeats.</p><p style="padding-top: 15px; text-align: left;">That is not the Macro-Perspective way. We do things differently. Instead of selling our EA for a large one time 0 payment, we charge a small monthly subscription fee and give our clients the opportunity to copy our trades directly to their personal accounts.  It’s a true win-win situation.</p><p style="text-align: right; padding-top: 20px;">-Jonathan</p></div>
+            <div class="logo"><img width="100%" src="{{ url_for('static', filename='images/best lion logo edited.jpg') }}" alt="Macro-Perspective logo"></div>
+        </div>
+    </div>
+    <h1 id="FAQ"></h1>
+    <section onclick="hideSidebar()">
+        <h1 class="title">Frequently Asked Questions</h1>
+        <h2 class="subtitle">We are proud of our work.  We know our Expert Advisor Systems work.
+            <br>Our Trading Strategy is a true win-win situation.
+        </h2>
+
+        <div class="questions-container">
+            <div class="question">
+                <button>
+                    <span>What is an EA (Expert Advisor)?</span>
+                    <i class="fas fa-chevron-down d-arrow"></i>
+                </button>
+                <p>An Expert Advisor (EA) is a computer program initially designed to assist professional Forex traders in identifying profitable trades. Over time, it has evolved into a fully automated trading algorithm that operates independently. An automated EA follows strict, predefined rules based on a specific trading strategy, executing trades without any emotional interference. If the strategy has an edge in the market, the EA should, in theory, generate profits.</p>
+            </div>
+            <div class="question">
+                <button>
+                    <span style="text-align: left;">What makes a Macro Perspective Expert Advisor (MP EA) special?</span>
+                    <i class="fas fa-chevron-down d-arrow"></i>
+                </button>
+                <p>Other EAs uses mathematical strategy that is fitted to a specific currency pair, given a specific timeframe. This works well for backtesting, but if the EA is over fitted to the backtesting data, it won't work in different situations and is vunerable to market anomalies.  This the EA has high risk although not seeming so. <br><br>What sets Macro Perspective EAs apart is that, unlike most others, uses real time market analysis. It checks the news, uses fundamental analysis, does not trade when volatility is high, and integrates market sentiment into its trading decisions. Thus, our EA cannot fully be backtested, but will withstand any market anomilies, and is not overfitted to a specifix scenario.  fit for any currency pair, any condition.  </p>
+            </div>
+            <div class="question">
+                <button>
+                    <span>How does it work?</span>
+                    <i class="fas fa-chevron-down d-arrow"></i>
+                </button>
+                <p>How the EA Works:
+                   <br><br>
+                   - Continuous Market Evaluation: The program continuously monitors the market based on predefined parameters, automatically deciding when to trade or hold off.
+                   <br><br>
+                   - Timed Trade Execution: It may open trades on specified intervals, depending on market conditions, focusing on specific currency pairs during their active hours.
+                   <br><br>
+                   - Volatility Management: The EA automatically pauses trading when the market becomes volatile or other specified conditions aren't met, ensuring trades are only executed under favorable circumstances.
+                   <br><br>
+                   - Controlled Trade Closure: Trades are closed either when they reach a profitable level or after a specified duration, with a limited number of trades open at any given time to minimize risk.
+                   <br><br>
+                   - Trailing Take-Profit: The program uses an automatic trailing take-profit feature, allowing profits to be maximized while maintaining control over risk.
+                   <br><br>
+                   - Linear Risk Management: Risk is managed in a linear fashion, up to a defined point, ensuring consistent exposure.
+                   <br><br>
+                   - Dynamic Trading Plan: The EA adapts dynamically to changing market conditions, volatility, sentiment, and news, adjusting its strategy accordingly.
+                   <br><br>
+                   - Customizable Settings:** The current settings make this an automated, low-risk, conservative program that trades only under normal market conditions. However, by adjusting a few parameters, I can modify the risk level and trading conditions as needed. The program can even accept manual input on the fly.
+                </p>
+            </div>
+            <div class="question">
+                <button>
+                    <span>What is the risk?</span>
+                    <i class="fas fa-chevron-down d-arrow"></i>
+                </button>
+                <p>
+                    The best way to make money in the market is to not lose it.
+                    <br><br>
+                    The Macro-Perspective Expert Advisors are designed to minimize or eliminate risk. Most of our EA's have a 30% fixed maximum draw-down (unless stated otherwise). We develop our EA's using different trading techniques. We also trade different currency pairs and asset classes for each EA.
+                    <br><br>
+                    Forex trading is extremely risky. You can lose all the money you invested, so never invest more money than you can afford to lose.
+                </p>
+            </div>
+            <div class="question">
+                <button>
+                    <span>Do the EAs use a TP and SL?</span>
+                    <i class="fas fa-chevron-down d-arrow"></i>
+                </button>
+                <p>The EAs use a hidden Stop Loss to avoid broker manipulation. If the drawdown exceeds 30% all trades are automatically closed.  The Take-Profit is also hidden and varies from a trailing TP to a fixed TP based on market conditions.</p>
+            </div>
+            <div class="question">
+                <button>
+                    <span>How does News affect MP EA's</span>
+                    <i class="fas fa-chevron-down d-arrow"></i>
+                </button>
+                <p>
+                    Most of our EA's trade very conservatively on a big time frame and therefore the day-to-day news does not have an impact.
+                    <br><br>
+                    Some of our EA systems trade on a shorter time frame with higher risk. These have a news and volume filters to prohibit trading when market uncertainty is high.
+                    <br><br>
+                    We are also able to manually intervene if something unexpected happens, such as a black swan event. This is however highly unlikely.
+                    <br><br>
+                    In trading, there is only probability not certainty. News will always remain uncertain and that is one of the risks of trading.
+                </p>
+            </div>
+            <div class="question">
+                <button>
+                    <span>What is the required trading balance?</span>
+                    <i class="fas fa-chevron-down d-arrow"></i>
+                </button>
+                <p>This is specified for each EA. It also depends on the broker, for example, Robo-Forex allows cent accounts, so the minimum starting balance would be a lot less than a normal account.</p>
+            </div>
+            <div class="question">
+                <button>
+                    <span>
+                        What is the required leverage?</span>
+                    <i class="fas fa-chevron-down d-arrow"></i>
+                </button>
+                <p>
+                    Leverage is determined by the broker. For that reason, your leverage may differ from mine.
+                    <br><br>
+                    Our EA was built using leverage 1:100.   The program will automatically check your leverage.  If your leverage is more, the risk will be the same.  If your leverage is less, the program will decrease your risk based on your leverage.
+                    <br><br>
+                    Example:
+                    <br>
+                    Your leverage is 1:50 and our is 1:100.  The calculation is 50/100=50%.  Your risk will be reduced by 50%
+                    <br>
+                    Summary:
+                    <br>
+                    If your leverage is more, your risk is not more. If your leverage is less, your risk is less.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="container" onclick="hideSidebar()">
+        <div class="child">
+            <div>
+                <h1>The Macro Perspective EA</h1>
+                <ul>
+                    <li>7 different strategies trading on 13 combined pairs</li>
+                    <li>Strategies: Crackerjack, Vigorous, CBK, Serenity Ranger, SS & Slugger</li>
+                    <li>Averages 15 trades daily</li>
+                    <li>3 years LIVE trading performance</li>
+                    <li>A One of a kind passive/hybrid model can bring additional profit</li>
+                    <li>Available for MT5 & MT4</li>
+                    <li>20 year successful backtesting on all 13 trading pairs</li>
+                    <li>Flexible EA settings to accommodate low, med or high risk</li>
+                    <li>Estimated 6-10% monthly profit using (high risk) settings</li>
+                    <li>Estimated 3-5% monthly profit using (med risk) settings</li>
+                    <li>Estimated 1.5-2.5% monthly profit using (low risk) settings</li>
+                    <li>The Powerhouse EA uses protective stop-losses</li>
+                    <li>Easy installation</li>
+                    <li>PDF manual that includes helpful installation and settings videos</li>
+                    <li>Free EA updates and support</li>
+                    <li>At least $3k, 200:1 leverage is recommended (high risk preset)</li>
+                    <li>At least $6k, 100:1 leverage is recommended  (med risk preset)</li>
+                    <li>At least $12k, 50:1 leverage  is recommended (low risk preset)</li>
+                </ul>
+                <a href="{{ url_for('login') }}">
+                    <button>
+                        Subscribe 10$ per month
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="whyRoar-container" onclick="hideSidebar()">
+        <div class="whyRoar">
+            <div>
+                <h1>WHY ROAR?</h1>
+                <P>BULLS are always looking down while grazing.</P>
+                <p>BEARS sleep too much.</p>
+                <p>A LION never looks down. It lurks in the grass. It perceives the habitat. It is a master in surveillance, fully aware of the macro environment. It waits. It knows it's limitations. It waits for the perfect opportunity to strike and win.</p>
+                <p>A lion never settles for second best. No matter the economy of the jungle, the lion will never eat grass.</p>
+                <p>WE ARE LIONS <br> JOIN OUR PRIDE</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footr" onclick="hideSidebar()">
+        <div>
+            <div>Risk Warning <br>
+                Trading foreign exchange on margin carries a high level of risk, and may not be suitable for all investors. The high degree of leverage can work against you as well as for you. Before deciding to invest in foreign exchange you should carefully consider your investment objectives, level of experience, and risk appetite. The possibility exists that you could sustain a loss of some or all of your initial investment and therefore you should not invest money that you cannot afford to lose. You should be aware of all the risks associated with foreign exchange trading, and seek advice from an independent financial advisor if you have any doubts. Clearly understand this: Information contained within this course is not an invitation to trade any specific investments.</div>
+            <div>CFTC RULE 4.41
+                <br>
+                HYPOTHETICAL OR SIMULATED PERFORMANCE RESULTS HAVE CERTAIN LIMITATIONS. UNLIKE AN ACTUAL PERFORMANCE RECORD. SIMULATED RESULTS DO NOT REPRESENT ACTUAL TRADING. ALSO, SINCE THE TRADES HAVE NOT BEEN EXECUTED. <br>THE RESULTS MAY HAVE
+                UNDER-OR-OVER COMPENSATED FOR THE IMPACT, IF ANY, OF CERTAIN MARKET FACTORS, SUCH AS LACK OF LIQUIDITY. NO REPRESENTATION IS BEING MADE THAT ANY ACCOUNT WILL OR IS LIKELY TO ACHIEVE PROFIT OR LOSSES SIMILAR TO THOSE SHOWN.</div>
+        </div>
+    </div>
+
+    <script>
+        function showSidebar(){
+            const sidebar = document.querySelector(".sidebar")
+            sidebar.style.display = 'flex'
+        }
+        function hideSidebar(){
+            const sidebar = document.querySelector(".sidebar")
+            sidebar.style.display = 'none'
+        }
+        const buttons = document.querySelectorAll('button');
+
+        buttons.forEach( button =>{
+            button.addEventListener('click',()=>{
+            const faq = button.nextElementSibling;
+            const icon = button.children[1];
+
+            faq.classList.toggle('show');
+            icon.classList.toggle('rotate');
+        })
+    } )
+    </script>
+
+</body>
+</html>
