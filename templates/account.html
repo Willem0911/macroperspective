@@ -1,12 +1,133 @@
-{% extends "base.html" %} {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macro Perspective</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/account-styles.css') }}">
+</head>
+<body>
+
+    <nav>
+        <ul class="sidebar" style='text-align: center;'>
+            <li onclick="hideSidebar()"><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></a></li>
+            <li onclick="hideSidebar()"><a  href="{{ url_for('home') }}">Home</a></li>
+            <li onclick="hideSidebar()"><a href="/#FAQ">FAQ</a></li>
+            <li onclick="hideSidebar()"><a href="{{ url_for('contact') }}">Contact</a></li>
+            {% if not logged_in: %}
+            <li onclick="hideSidebar()"><a href="{{ url_for('login') }}">Login</a></li>
+            {% else: %}
+            <li onclick="hideSidebar()"><a href="{{ url_for('account') }}">Account</a></li>
+            <li onclick="hideSidebar()"><a href="{{ url_for('logout') }}">Log Out</a></li>
+            {% endif %}
+        </ul>
+        <ul>
+            <li><a href="#" class="no_hover"><img src="{{ url_for('static', filename='images/android-chrome-192x192.png') }}" height="50px" alt="macroperspective logo" style="padding-right: 10px;"> MACRO PERSPECTIVE</a></li>
+            <li class="hideOnMobile"><a href="{{ url_for('home') }}">Home</a></li>
+            <li class="hideOnMobile"><a href="/#FAQ">FAQ</a></li>
+            <li class="hideOnMobile"><a href="{{ url_for('contact') }}">Contact</a></li>
+            {% if not logged_in: %}
+            <li class="hideOnMobile"><a href="{{ url_for('login') }}">Login</a></li>
+            {% else: %}
+            <li class="hideOnMobile"><a href="{{ url_for('account') }}">Account</a></li>
+            <li class="hideOnMobile"><a href="{{ url_for('logout') }}">Log Out</a></li>
+            {% endif %}
+            <li class="menu-button" onclick=showSidebar()><a href="javascript:;" ><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F5C645"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg></a></li>
+        </ul>
+    </nav>
+
+    <div class="warning">
+        <p>NOTE: It is recomended that you don't try to install the ea using your phone. Instead, use your computer.</p>
+    </div>
+
+    <div class="container">
+        <div class="card">
+                <div class="card-front">
+                    <div class="card-front-text">
+                        <h1>The Macro Perspective EA</h1>
+
+                    </div>
+                    <img src="{{ url_for('static', filename='images/best lion logo edited.jpg') }}" alt="macroperspective logo">
+
+                </div>
+                <div class="card-back">
+                    <div class="card-back-text">
+                        <h2>What makes us different?</h2>
+                        <p>
+                            Unlike many Expert Advisors (EAs) that rely solely on technical indicators, which can often lag behind market movements, the Macro Perspective EA takes a more comprehensive approach. We analyze market sentiment and fundamental factors, allowing us to make informed trading decisions. While we incorporate technical indicators to reinforce our signals, our strategy prioritizes a thorough understanding of the broader economic landscape. This ensures that our trades are grounded in real market conditions rather than purely reactive tactics, positioning our clients for greater success in the forex market.
+                        </p>
+                    </div>
+                </div>
+        </div>
+
+    </div>
+
+    <div class="buttons">
+        <a href="">
+            <button>
+                Subscribe 10$ per month
+            </button>
+        </a>
+        <a href="{{ url_for('download_ea') }}">
+            <button>
+                Download EA
+            </button>
+        </a>
+        <a href="">
+            <button>
+                Download Installation Guide
+            </button>
+        </a>
+
+            <p class="text-to-copy" hidden>{{api_key}}</p>
+            <button type="button" class="copy-link" data-copy=".text-to-copy">
+                <span class="copy-label">Copy your unique id</span>
+            </button>
 
 
-<div class="container">
-  <h1 class="title">Welcome, {{name}}!</h1>
-  <p> Your URL is: https://macroperspective.net/trade/{{id}}?api_key={{api_key}}</p>
-  {% if id==1: %}
-  <p> Your post URL is: https://macroperspective.net/post_new_trade?symbol=?buy_or_sell=?risk_perc=?sl=?tp=</p>
-  {% endif %}
-  <a href="#">Download Your File</a>
-</div>
-{% endblock %}
+    </div>
+
+    <script>
+        function showSidebar(){
+            const sidebar = document.querySelector(".sidebar")
+            sidebar.style.display = 'flex'
+        }
+        function hideSidebar(){
+            const sidebar = document.querySelector(".sidebar")
+            sidebar.style.display = 'none'
+        }
+        const buttons = document.querySelectorAll('button');
+
+        buttons.forEach( button =>{
+            button.addEventListener('click',()=>{
+            const faq = button.nextElementSibling;
+            const icon = button.children[1];
+
+            faq.classList.toggle('show');
+            icon.classList.toggle('rotate');
+            })
+        } )
+        document.querySelectorAll(".copy-link").forEach(copyButton =>{
+            copyButton.addEventListener("click", () => {
+                const targetElement = document.querySelector(copyButton.dataset.copy);
+                const textToCopy = targetElement.textContent.replace(/\s+/g, " ").trim();
+
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const label = copyButton.querySelector(".copy-label");
+                    const originalText = label.textContent;
+
+                    copyButton.disabled = true;
+                    label.textContent = "Copied!";
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

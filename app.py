@@ -199,17 +199,17 @@ def account():
                            logged_in=current_user.is_authenticated)
 
 
+@app.route('/account/download-ea')
+@login_required
+def download_ea():
+    return send_from_directory('static', 'files/MacroPerspective.ex5')
+
+
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('home'))
 
-
-# Only logged-in users can down download the pdf
-@app.route('/download')
-@login_required
-def download():
-    return send_from_directory('static', path="files/cheat_sheet.pdf", logged_in=True)
 
 
 # @app.route('/trade')
