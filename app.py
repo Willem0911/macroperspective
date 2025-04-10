@@ -5,7 +5,6 @@ import random
 import datetime
 import os
 from waitress import serve
-# from OpenSSL import SSL
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -15,16 +14,16 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, cur
 ASSETS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "aldkhjhewuiorhweiooi"
-EMAIL_PASSWORD = "zugi vnhp bmnx mkzo"
-EMAIL_NAME = "williamhorowits@gmail.com"
+app.config['SECRET_KEY'] = "Yoursecret"
+EMAIL_PASSWORD = "Your email password"
+EMAIL_NAME = "Your email name"
 
 
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
 
-
+# This datavase is offline
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:willemerasmus@flaskdb.chouyammgprj.us-east-1.rds.amazonaws.com/macrodb'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
